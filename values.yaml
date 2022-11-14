@@ -1,0 +1,39 @@
+gitlabUrl: https://p-boss-gitlab-01.eng.tdc.net/
+
+## The registration token for adding new Runners to the GitLab server. This must
+## be retrieved from your GitLab instance.
+## ref: https://docs.gitlab.com/ee/ci/runners/
+##
+runnerRegistrationToken: "1ABX6zdxXPyz4Btsie3J"
+unregisterRunners: false
+#runnerToken: "Mn-yKRaW734MvyZuLLKz"
+
+## Set the certsSecretName in order to pass custom certificates for GitLab Runner to use
+## Provide resource name for a Kubernetes Secret Object in the same namespace,
+## this is used to populate the /etc/gitlab-runner/certs directory
+## ref: https://docs.gitlab.com/runner/configuration/tls-self-signed.html#supported-options-for-self-signed-certificates
+##
+#certsSecretName:
+
+## Configure the maximum number of concurrent jobs
+## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section
+##
+concurrent: 10
+
+## Defines in seconds how often to check GitLab for a new builds
+## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section
+##
+checkInterval: 10
+
+runners:
+  tags: "k8s,management-west"
+
+rbac:
+  create: true
+  ## Define specific rbac permissions.
+  resources: ["pods", "pods/exec", "secrets"]
+  verbs: ["get", "list", "watch", "create", "patch", "delete"]
+
+  ## Run the gitlab-bastion container with the ability to deploy/manage containers of jobs
+  ## cluster-wide or only within namespace
+  clusterWideAccess: true
